@@ -1,0 +1,194 @@
+public interface IProductCalculations {
+
+    // Calculate VAT (15%)
+    double GetVat(double price);
+
+    // Calculate Commission (5%)
+    double GetCommission(double price);
+
+    // Calculate Total Sale Amount
+    double GetTotal(double price);
+}
+
+public class ProductCalculations implements IProductCalculations {
+
+    // Calculate VAT (15%)
+    @Override
+    public double GetVat(double price) {
+        return price * 0.15;
+    }
+
+    // Calculate Commission (5%)
+    @Override
+    public double GetCommission(double price) {
+        return price * 0.05;
+    }
+
+    // Calculate Total Sale Amount
+    @Override
+    public double GetTotal(double price) {
+        double vat = GetVat(price);
+        double commission = GetCommission(price);
+
+        return price + vat + commission;
+    }
+}
+
+import javax.swing.JOptionPane;
+import java.io.FileWriter;
+import java.io.IOException;
+
+public class ProductForm extends javax.swing.JFrame {
+
+private ProductCalculations calc = new ProductCalculations();
+
+public ProductForm() {
+    initComponents();
+
+    cmbProduct.removeAllItems();
+
+    cmbProduct.addItem("Cozy Nights Monarch");
+    cmbProduct.addItem("Restonic Barbados");
+    cmbProduct.addItem("Sealy Phuket");
+}
+
+private void btnProcessActionPerformed(java.awt.event.ActionEvent evt) {
+
+}
+
+private void btnProcessActionPerformed(java.awt.event.ActionEvent evt) {
+
+    // Get values from the form
+    String customerName = txtCustomer.getText();
+    String product = cmbProduct.getSelectedItem().toString();
+    double price = Double.parseDouble(txtPrice.getText());
+
+    // Perform calculations
+    double vat = calc.GetVat(price);
+    double commission = calc.GetCommission(price);
+    double total = calc.GetTotal(price);
+
+    // Display results
+    JOptionPane.showMessageDialog(this,
+            "Customer Name: " + customerName
+            + "\nProduct: " + product
+            + "\nVAT: R " + vat
+            + "\nCOMMISSION: R " + commission
+            + "\nTOTAL: R " + total);
+
+    // Save to data.txt
+    try {
+        FileWriter writer = new FileWriter("data.txt", true);
+
+        writer.write("DATA LOG\n");
+        writer.write("Customer Name: " + customerName + "\n");
+        writer.write("Product: " + product + "\n");
+        writer.write("VAT: R " + vat + "\n");
+        writer.write("COMMISSION: R " + commission + "\n");
+        writer.write("TOTAL: R " + total + "\n");
+        writer.write("----------------------------------\n");
+
+        writer.close();
+
+    } catch (IOException e) {
+        JOptionPane.showMessageDialog(this,
+                "Error writing to file.");
+    }
+}
+
+Customer Name: Joe Bloggs
+Product: Cozy Nights Monarch
+VAT: R 525.0
+COMMISSION: R 175.0
+TOTAL: R 4200.0
+
+DATA LOG
+Customer Name: Joe Bloggs
+Product: Cozy Nights Monarch
+VAT: R 525.0
+COMMISSION: R 175.0
+TOTAL: R 4200.0
+----------------------------------
+
+public class Main {
+
+    public static void main(String[] args) {
+
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                new ProductForm().setVisible(true);
+            }
+        });
+
+    }
+}
+
+package question3;
+
+public class Main {
+
+    public static void main(String[] args) {
+
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                new ProductForm().setVisible(true);
+            }
+        });
+
+    }
+}
+
+import org.junit.Test;
+import static org.junit.Assert.*;
+
+public class ProductCalculationsTest {
+
+    ProductCalculations calc = new ProductCalculations();
+
+    // Unit Test 1
+    @Test
+    public void GetVat_WithValidData_ReturnsCorrectValue() {
+
+        double price = 3500.00;
+        double expected = 525.00;
+
+        double actual = calc.GetVat(price);
+
+        assertEquals(expected, actual, 0.01);
+    }
+
+    // Unit Test 2
+    @Test
+    public void GetTotal_WithValidData_ReturnsCorrectValue() {
+
+        double price = 3500.00;
+        double expected = 4200.00;
+
+        double actual = calc.GetTotal(price);
+
+        assertEquals(expected, actual, 0.01);
+    }
+}
+
+GetVat_WithValidData_ReturnsCorrectValue()
+
+Price = R3500
+VAT = R525
+
+GetTotal_WithValidData_ReturnsCorrectValue()
+
+Price + VAT + Commission
+
+Price = R3500
+VAT = R525
+Commission = R175
+
+Total = R4200
+
+Tests run: 2
+Failures: 0
+Errors: 0
+
+BUILD SUCCESSFUL
