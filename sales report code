@@ -1,0 +1,100 @@
+import java.util.Scanner;
+
+public class Main {
+
+    public static void main(String[] args) {
+
+        Scanner input = new Scanner(System.in);
+
+        // Product names
+        String[] products = {
+            "Cozy Nights Monarch mattress",
+            "Restonic Barbados mattress",
+            "Sealy Phuket mattress"
+        };
+
+        // Sales array (3 products x 3 months)
+        int[][] sales = new int[3][3];
+
+        int totalSales = 0;
+        int highestSales = 0;
+        String mostPopularProduct = "";
+
+        // Input sales
+        for (int i = 0; i < products.length; i++) {
+
+            int productTotal = 0;
+
+            for (int j = 0; j < 3; j++) {
+
+                System.out.print("Enter number of sales for month " + (j + 1)
+                        + " for " + products[i] + ": ");
+
+                sales[i][j] = input.nextInt();
+
+                productTotal += sales[i][j];
+                totalSales += sales[i][j];
+            }
+
+            if (productTotal > highestSales) {
+                highestSales = productTotal;
+                mostPopularProduct = products[i];
+            }
+
+            System.out.println();
+        }
+
+        // Calculate average sales per product
+        double averageSales = (double) totalSales / products.length;
+
+        // Display report
+        System.out.println("\n===============================");
+        System.out.println("      SALES REPORT");
+        System.out.println("===============================");
+
+        for (int i = 0; i < products.length; i++) {
+
+            int productTotal = 0;
+
+            for (int j = 0; j < 3; j++) {
+                productTotal += sales[i][j];
+            }
+
+            System.out.println(products[i] + " Total Sales: " + productTotal);
+        }
+
+        System.out.println("\nTotal Number of Products Sold: " + totalSales);
+        System.out.printf("Average Products Sold Per Product: %.2f%n", averageSales);
+        System.out.println("Most Popular Product: " + mostPopularProduct);
+        System.out.println("Highest Total Sales: " + highestSales);
+
+    }
+}
+
+Input
+
+Enter number of sales for month 1 for Cozy Nights Monarch mattress: 25
+Enter number of sales for month 2 for Cozy Nights Monarch mattress: 18
+Enter number of sales for month 3 for Cozy Nights Monarch mattress: 20
+
+Enter number of sales for month 1 for Restonic Barbados mattress: 15
+Enter number of sales for month 2 for Restonic Barbados mattress: 10
+Enter number of sales for month 3 for Restonic Barbados mattress: 12
+
+Enter number of sales for month 1 for Sealy Phuket mattress: 18
+Enter number of sales for month 2 for Sealy Phuket mattress: 15
+Enter number of sales for month 3 for Sealy Phuket mattress: 20
+
+Output
+
+===============================
+      SALES REPORT
+===============================
+Cozy Nights Monarch mattress Total Sales: 63
+Restonic Barbados mattress Total Sales: 37
+Sealy Phuket mattress Total Sales: 53
+
+Total Number of Products Sold: 153
+Average Products Sold Per Product: 51.00
+Most Popular Product: Cozy Nights Monarch mattress
+Highest Total Sales: 63
